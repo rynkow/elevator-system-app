@@ -15,4 +15,6 @@ public interface IElevator {
     Integer willMovePast(Integer floor);
 
     Integer getDirection();
+
+    void setDirection(Integer direction);
 }

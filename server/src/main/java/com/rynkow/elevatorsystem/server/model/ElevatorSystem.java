@@ -82,6 +82,9 @@ public class ElevatorSystem implements IElevatorSystem {
 
                 // remove request from list
                 requests.remove(removedRequestIndex);
+
+                // if elevator was direction was 0 - it becomes the direction of the request
+                elevator.setDirection(request.direction);
             }
         }
 
@@ -92,6 +95,7 @@ public class ElevatorSystem implements IElevatorSystem {
             // check if an elevator will move past request
             boolean willBeHandled = false;
             for (IElevator elevator: elevators){
+                // TODO request floor is the final destination - if there are 2 types of requests 1 will not be fulfilled
                 if (elevator.willMovePast(request.floor) > 0) {
                     willBeHandled = true;
                     break;

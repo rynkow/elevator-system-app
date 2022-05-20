@@ -8,13 +8,23 @@ import java.util.TreeSet;
 
 public class Elevator implements IElevator {
     private Integer floor;
-    private TreeSet<Integer> destinations;
+    private final TreeSet<Integer> destinations;
+    private Integer direction;
+
+    public Elevator(){
+        this.floor = 0;
+        this.destinations = new TreeSet<>();
+        direction = 0;
+    }
 
     @Override
     public void move() {
         // move elevator based on set destinations
-        if (destinations.isEmpty())
-            return;     // if there are no destinations don't move
+        if (destinations.isEmpty()){
+            // if there are no destinations don't move and set elevator direction to 0
+            direction = 0;
+            return;
+        }
 
         // move towards next destination
         Integer nextDestination = destinations.first();
@@ -28,8 +38,11 @@ public class Elevator implements IElevator {
             floor -= 1;
         }
         // if we arrived at the destination floor, we remove it from the set
-        if (floor.equals(nextDestination))
+        if (floor.equals(nextDestination)){
             destinations.remove(nextDestination);
+            // if we reached the final destination elevator becomes idle
+            if (destinations.isEmpty()) direction = 0;
+        }
     }
 
     @Override
@@ -46,16 +59,18 @@ public class Elevator implements IElevator {
         if (floor.equals(destination))
             return false;
 
-        // if elevator does not have a destination all directions are ok
-        if (destinations.isEmpty()){
+        // direction in which destination is
+        Integer newDestinationDirection = Integer.signum(destination - floor);
+
+        // if elevator is idle all directions are ok, and destination direction becomes elevator direction
+        if (direction.equals(0)){
             destinations.add(destination);
+            direction = newDestinationDirection;
             return true;
         }
 
-        // check if new destination is in the same direction as current destinations
-        Integer currentDestinationDirection = Integer.signum(destinations.first() - floor);
-        Integer newDestinationDirection = Integer.signum(destination - floor);
-        if (!currentDestinationDirection.equals(newDestinationDirection))
+        // if direction is set - allow only destinations in that direction
+        if (!direction.equals(newDestinationDirection))
             return false;
         destinations.add(destination);
         return true;
@@ -65,16 +80,15 @@ public class Elevator implements IElevator {
     public Integer willMovePast(Integer floor) {
         if (destinations.isEmpty()) return 0;
 
-        Integer currentDestinationDirection = Integer.signum(destinations.first() - this.floor);
         Integer floorDirection = Integer.signum(floor - this.floor);
 
-        if (!currentDestinationDirection.equals(floorDirection)) return 0;
+        if (!direction.equals(floorDirection)) return 0;
 
         Integer floorDistance = Math.abs(floor - this.floor);
-        if (currentDestinationDirection.equals(1) && destinations.last() >= floor)
+        if (direction.equals(1) && destinations.last() >= floor)
             return floorDistance;
 
-        if (currentDestinationDirection.equals(-1) && destinations.first() <= floor)
+        if (direction.equals(-1) && destinations.first() <= floor)
             return floorDistance;
 
         return 0;
@@ -84,6 +98,13 @@ public class Elevator implements IElevator {
     public Integer getDirection() {
         if (destinations.isEmpty()) return 0;
         return Integer.signum(destinations.first() - this.floor);
+    }
+
+    @Override
+    public void setDirection(Integer direction) {
+        // sets elevator direction - only possible if elevator has no direction
+        if (this.direction == 0)
+            this.direction = Integer.signum(direction);
     }
 
     @Override
