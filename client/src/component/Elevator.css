@@ -6,7 +6,18 @@
     background-color: rgba(70, 130, 180, 0.3);
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+}
+
+.elevator > .container {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
+}
+
+.elevator > .buttons {
+    flex: 1 100%;
 }

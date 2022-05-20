@@ -55,6 +55,7 @@ const App = () => {
                         floor={elevatorFloors[column]}
                         destinations={elevatorDestinations[column]}
                         onNewDestination={(destination)=>addDestination(column, destination)}
+                        direction={elevatorDirections[column]}
                     />
                 );
             else return <div></div>
