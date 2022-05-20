@@ -6,6 +6,9 @@ import com.rynkow.elevatorsystem.server.model.interfaces.IElevatorSystem;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 public class ElevatorSystem implements IElevatorSystem {
     public final static Integer MAXIMUM_ELEVATOR_COUNT = 16;
@@ -152,9 +155,16 @@ public class ElevatorSystem implements IElevatorSystem {
     }
 
     @Override
-    public List<?> getState() {
-        // TODO add class representing system's state
-        return null;
+    public ElevatorSystemState getState() {
+        return new ElevatorSystemState.Builder()
+                .setElevatorCount(elevatorCount)
+                .setMaxFlor(maxFlor)
+                .setElevatorFloors(elevators.stream().map(IElevator::getCurrentFloor).toList())
+                .setDownRequests(requests.stream().filter(r->r.direction==-1).map(r->r.floor).toList())
+                .setUpRequests(requests.stream().filter(r->r.direction==1).map(r->r.floor).toList())
+                .setReservedElevators(IntStream.range(0, elevatorCount).filter(i->reservedElevators.get(i)).boxed().toList())
+                .setElevatorDestinations(elevators.stream().map(e->e.getDestinations().stream().toList()).toList())
+                .build();
     }
 
     @Override
