@@ -170,6 +170,7 @@ public class ElevatorSystem implements IElevatorSystem {
                 .setUpRequests(requests.stream().filter(r->r.direction==1).map(r->r.floor).toList())
                 .setReservedElevators(IntStream.range(0, elevatorCount).filter(i->reservedElevators.get(i)).boxed().toList())
                 .setElevatorDestinations(elevators.stream().map(e->e.getDestinations().stream().toList()).toList())
+                .setElevatorDirections(elevators.stream().map(IElevator::getDirection).toList())
                 .build();
     }
 

@@ -8,15 +8,18 @@ public class ElevatorSystemState {
     private final List<Integer> upRequests;
     private final List<Integer> downRequests;
     private final List<Integer> elevatorFloors;
+
+    private final List<Integer> elevatorDirections;
     private final List<Integer> reservedElevators;
     private final List<List<Integer>> elevatorDestinations;
 
-    public ElevatorSystemState(Integer elevatorCount, Integer maxFlor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Integer> reservedElevators, List<List<Integer>> elevatorDestinations) {
+    public ElevatorSystemState(Integer elevatorCount, Integer maxFlor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Integer> elevatorDirections, List<Integer> reservedElevators, List<List<Integer>> elevatorDestinations) {
         this.elevatorCount = elevatorCount;
         this.maxFlor = maxFlor;
         this.upRequests = upRequests;
         this.downRequests = downRequests;
         this.elevatorFloors = elevatorFloors;
+        this.elevatorDirections = elevatorDirections;
         this.reservedElevators = reservedElevators;
         this.elevatorDestinations = elevatorDestinations;
     }
@@ -27,6 +30,7 @@ public class ElevatorSystemState {
         private List<Integer> upRequests;
         private List<Integer> downRequests;
         private List<Integer> elevatorFloors;
+        private List<Integer> elevatorDirections;
         private List<Integer> reservedElevators;
         private List<List<Integer>> elevatorDestinations;
 
@@ -55,6 +59,10 @@ public class ElevatorSystemState {
             this.elevatorFloors = elevatorFloors;
             return this;
         }
+        public Builder setElevatorDirections(List<Integer> elevatorDirections) {
+            this.elevatorDirections = elevatorDirections;
+            return this;
+        }
 
         public Builder setReservedElevators(List<Integer> reservedElevators) {
             this.reservedElevators = reservedElevators;
@@ -73,6 +81,7 @@ public class ElevatorSystemState {
                 this.upRequests,
                 this.downRequests,
                 this.elevatorFloors,
+                this.elevatorDirections,
                 this.reservedElevators,
                 this.elevatorDestinations
             );
@@ -97,6 +106,10 @@ public class ElevatorSystemState {
 
     public List<Integer> getElevatorFloors() {
         return elevatorFloors;
+    }
+
+    public List<Integer> getElevatorDirections() {
+        return elevatorDirections;
     }
 
     public List<Integer> getReservedElevators() {
