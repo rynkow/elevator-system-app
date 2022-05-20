@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ElevatorSystemState {
     private final Integer elevatorCount;
-    private final Integer maxFlor;
+    private final Integer maxFloor;
     private final List<Integer> upRequests;
     private final List<Integer> downRequests;
     private final List<Integer> elevatorFloors;
@@ -13,9 +13,9 @@ public class ElevatorSystemState {
     private final List<Integer> reservedElevators;
     private final List<List<Integer>> elevatorDestinations;
 
-    public ElevatorSystemState(Integer elevatorCount, Integer maxFlor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Integer> elevatorDirections, List<Integer> reservedElevators, List<List<Integer>> elevatorDestinations) {
+    public ElevatorSystemState(Integer elevatorCount, Integer maxFloor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Integer> elevatorDirections, List<Integer> reservedElevators, List<List<Integer>> elevatorDestinations) {
         this.elevatorCount = elevatorCount;
-        this.maxFlor = maxFlor;
+        this.maxFloor = maxFloor;
         this.upRequests = upRequests;
         this.downRequests = downRequests;
         this.elevatorFloors = elevatorFloors;
@@ -26,7 +26,7 @@ public class ElevatorSystemState {
 
     public static class Builder{
         private Integer elevatorCount;
-        private Integer maxFlor;
+        private Integer maxFloor;
         private List<Integer> upRequests;
         private List<Integer> downRequests;
         private List<Integer> elevatorFloors;
@@ -40,8 +40,8 @@ public class ElevatorSystemState {
             return this;
         }
 
-        public Builder setMaxFlor(Integer maxFlor) {
-            this.maxFlor = maxFlor;
+        public Builder setMaxFloor(Integer maxFloor) {
+            this.maxFloor = maxFloor;
             return this;
         }
 
@@ -77,7 +77,7 @@ public class ElevatorSystemState {
         public ElevatorSystemState build(){
             return new ElevatorSystemState(
                 this.elevatorCount,
-                this.maxFlor,
+                this.maxFloor,
                 this.upRequests,
                 this.downRequests,
                 this.elevatorFloors,
@@ -92,8 +92,8 @@ public class ElevatorSystemState {
         return elevatorCount;
     }
 
-    public Integer getMaxFlor() {
-        return maxFlor;
+    public Integer getMaxFloor() {
+        return maxFloor;
     }
 
     public List<Integer> getUpRequests() {

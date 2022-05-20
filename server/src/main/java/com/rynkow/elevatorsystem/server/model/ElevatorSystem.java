@@ -3,14 +3,12 @@ package com.rynkow.elevatorsystem.server.model;
 import com.rynkow.elevatorsystem.server.model.interfaces.IElevator;
 import com.rynkow.elevatorsystem.server.model.interfaces.IElevatorSystem;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.toList;
 @Component
 public class ElevatorSystem implements IElevatorSystem {
     public final static Integer MAXIMUM_ELEVATOR_COUNT = 16;
@@ -164,7 +162,7 @@ public class ElevatorSystem implements IElevatorSystem {
     public ElevatorSystemState getState() {
         return new ElevatorSystemState.Builder()
                 .setElevatorCount(elevatorCount)
-                .setMaxFlor(maxFlor)
+                .setMaxFloor(maxFlor)
                 .setElevatorFloors(elevators.stream().map(IElevator::getCurrentFloor).toList())
                 .setDownRequests(requests.stream().filter(r->r.direction==-1).map(r->r.floor).toList())
                 .setUpRequests(requests.stream().filter(r->r.direction==1).map(r->r.floor).toList())
