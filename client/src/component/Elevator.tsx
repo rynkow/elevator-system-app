@@ -5,8 +5,9 @@ const Elevator = (props:{maxFloor: number, floor: number, destinations: number[]
 
     const elevatorButtons : JSX.Element[] = []
     for (let i = 0; i <= props.maxFloor; i++) {
+        const disabled = (props.floor - i) * props.direction > 0 || props.floor === i
         elevatorButtons.push(
-            <ElevatorButton onClick={()=>{props.onNewDestination(i)}} disabled={i===props.floor} isSet={props.destinations.includes(i)}>
+            <ElevatorButton onClick={()=>{props.onNewDestination(i)}} disabled={disabled} isSet={props.destinations.includes(i)}>
                 <div>{i}</div>
             </ElevatorButton>
         );
