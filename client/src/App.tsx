@@ -33,11 +33,30 @@ const App = () => {
         fetchState().then();
     },[])
 
+    const addDestination = async (elevatorId: number, destination: number) => {
+        const ok = await FetcherService.newDestination(elevatorId, destination);
+        if (ok){
+            const newDestinations = elevatorDestinations[elevatorId].slice();
+            newDestinations.push(destination);
+            setElevatorDestinations(elevatorDestinations.map((destinations, id)=>{
+                if (id !== elevatorId) return destinations;
+                else return newDestinations
+            }))
+        }
+    }
+
     const gridElements: JSX.Element[][] = Array.from(Array(maxFloor + 1).keys()).map((row) =>
         Array.from(Array(elevatorCount + 1).keys()).map((column) => {
-            console.log(row,column, maxFloor);
             if (column < elevatorCount && elevatorFloors[column] === maxFloor - row)
-                return <Elevator key={column}></Elevator>
+                return (
+                    <Elevator
+                        key={column}
+                        maxFloor={maxFloor}
+                        floor={elevatorFloors[column]}
+                        destinations={elevatorDestinations[column]}
+                        onNewDestination={(destination)=>addDestination(column, destination)}
+                    />
+                );
             else return <div></div>
         })
     )

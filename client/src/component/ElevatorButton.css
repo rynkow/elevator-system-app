@@ -1,0 +1,18 @@
+.elevator-button{
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.set{
+    background-color: rgba(173, 255, 47, 0.60);
+    color: black;
+    cursor: auto;
+}
+
+.inactive{
+    background-color: rgba(255, 99, 71, 0.40);
+    cursor: auto;
+}
