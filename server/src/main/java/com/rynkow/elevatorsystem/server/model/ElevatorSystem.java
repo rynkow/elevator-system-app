@@ -194,6 +194,12 @@ public class ElevatorSystem implements IElevatorSystem {
         if (requests.contains(request) || request.floor > maxFlor)
             return false;
 
+        // return false if there is an idle elevator on the floor
+        for (IElevator elevator: elevators)
+            if (elevator.getDirection().equals(0) && elevator.getCurrentFloor().equals(request.floor))
+                return false;
+
+
         // add the request to the end of the list, return ture
         requests.addLast(request);
         return true;
