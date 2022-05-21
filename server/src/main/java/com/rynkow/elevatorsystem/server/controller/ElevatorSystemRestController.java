@@ -1,5 +1,6 @@
 package com.rynkow.elevatorsystem.server.controller;
 
+import com.rynkow.elevatorsystem.server.model.ElevatorSystem;
 import com.rynkow.elevatorsystem.server.model.ElevatorSystemState;
 import com.rynkow.elevatorsystem.server.model.interfaces.IElevatorSystem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,10 @@ public class ElevatorSystemRestController {
 
     private IElevatorSystem elevatorSystem;
 
+    public ElevatorSystemRestController(){
+        elevatorSystem = new ElevatorSystem(6, 6);
+    }
+
     @GetMapping("/elevators")
     public ElevatorSystemState getSystemState(){
         return elevatorSystem.getState();
@@ -21,6 +26,12 @@ public class ElevatorSystemRestController {
     @PatchMapping("/elevators")
     public ElevatorSystemState nextStep(){
         elevatorSystem.nextStep();
+        return elevatorSystem.getState();
+    }
+
+    @PutMapping("elevators/{maxFloor}/{elevatorCount}")
+    public ElevatorSystemState setSystemParameters(@PathVariable Integer elevatorCount, @PathVariable Integer maxFloor){
+        elevatorSystem = new ElevatorSystem(maxFloor, elevatorCount);
         return elevatorSystem.getState();
     }
 
@@ -40,10 +51,5 @@ public class ElevatorSystemRestController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @Autowired
-    public void setElevatorSystem(IElevatorSystem elevatorSystem) {
-        this.elevatorSystem = elevatorSystem;
     }
 }

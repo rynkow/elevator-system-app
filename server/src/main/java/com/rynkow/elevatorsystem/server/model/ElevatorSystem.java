@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Component
 public class ElevatorSystem implements IElevatorSystem {
     public final static Integer MAXIMUM_ELEVATOR_COUNT = 16;
 
@@ -20,10 +19,6 @@ public class ElevatorSystem implements IElevatorSystem {
     private List<IElevator> elevators;
     private List<Boolean> reservedElevators;
     private LinkedList<Request> requests;
-
-    public ElevatorSystem(){
-        this(4, 4);
-    }
 
     public ElevatorSystem(Integer maxFloor, Integer elevatorCount){
         if (elevatorCount > MAXIMUM_ELEVATOR_COUNT)
