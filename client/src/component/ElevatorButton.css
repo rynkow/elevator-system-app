@@ -1,7 +1,7 @@
 .elevator-button{
     height: 30px;
     width: 30px;
-    margin: 5px;
+    margin: 3px;
     border-radius: 15px;
     cursor: pointer;
 }
