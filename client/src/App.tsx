@@ -5,6 +5,7 @@ import {ElevatorSystemState} from "./interface/elevatorSystemState.interface";
 import FetcherService from "./service/fetcherService";
 import Elevator from "./component/Elevator";
 import RequestControls from "./component/RequestControls";
+import ControlBar from "./component/ControlBar";
 
 const App = () => {
     const [maxFloor, setMaxFloor] = useState(0);
@@ -33,6 +34,11 @@ const App = () => {
         };
         fetchState().then();
     },[])
+
+    const nextStep = async () => {
+        const systemState: ElevatorSystemState | undefined = await FetcherService.nextStep();
+        if (systemState !== undefined) setState(systemState);
+    }
 
     const addDestination = async (elevatorId: number, destination: number) => {
         const ok = await FetcherService.newDestination(elevatorId, destination);
@@ -94,6 +100,7 @@ const App = () => {
     return (
         <div className="App">
             <Grid elements={gridElements}/>
+            <ControlBar onNextStep={nextStep}/>
         </div>
     );
 }
