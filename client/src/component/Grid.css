@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 100%;
     height: max-content;
+    min-height: calc(100% - 60px);
     align-items: stretch;
     box-sizing:border-box;
     padding: 10px;
