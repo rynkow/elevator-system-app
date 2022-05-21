@@ -157,7 +157,7 @@ public class Elevator implements IElevator {
     }
 
     @Override
-    public void toggleDoor() {
-        isOpen = !isOpen;
+    public void setIsOpen(Boolean isOpen) {
+        this.isOpen = isOpen;
     }
 }

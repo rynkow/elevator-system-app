@@ -23,5 +23,5 @@ public interface IElevator {
     Optional<Integer> getPriorityFloor();
 
     Boolean isOpen();
-    void toggleDoor();
+    void setIsOpen(Boolean isOpen);
 }
