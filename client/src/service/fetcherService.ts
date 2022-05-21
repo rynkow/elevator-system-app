@@ -21,7 +21,7 @@ class FetcherService{
     }
 
     public static newRequest = async (floor: number, direction: number) => {
-        const request = await fetch(`http://localhost:8080//request/${floor}/${direction}"`, {method: "PUT"});
+        const request = await fetch(`http://localhost:8080/request/${floor}/${direction}`, {method: "PUT"});
         return request.ok;
     }
 
