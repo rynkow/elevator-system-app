@@ -24,3 +24,7 @@
     border: rgba(0, 0, 0, 0.47) solid 1px;
     margin: -1px;
 }
+
+.last-column-cell {
+    flex: none !important;
+}
