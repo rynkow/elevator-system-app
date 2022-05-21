@@ -5,9 +5,8 @@ import com.rynkow.elevatorsystem.server.model.interfaces.IElevator;
 import java.util.Objects;
 
 public class Request {
-    public final Integer floor;
-    public final Integer direction;
-
+    private final Integer floor;
+    private final Integer direction;
     private Integer reservedElevator;
 
     public Request(Integer floor, Integer direction) {
@@ -21,13 +20,20 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        // TODO check if works
-        return floor.equals(request.floor) && (direction.equals(request.direction) || request.direction.equals(0) || direction.equals(0));
+        return floor.equals(request.floor) && (direction.equals(request.direction));
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(floor, direction);
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public Integer getDirection() {
+        return direction;
     }
 
     public Integer getReservedElevator() {
