@@ -252,4 +252,59 @@ public class ElevatorTest {
         }
     }
 
+    @Test
+    void ShouldBeAbleToSetPriorityFloor(){
+        // given an elevator without set priority floor
+        Elevator elevator = new Elevator();
+        assertTrue(elevator.getPriorityFloor().isEmpty());
+
+        // when setting the priority floor
+        elevator.setPriorityFloor(33);
+
+        // then priority floor is set correctly
+        assertEquals(33, elevator.getPriorityFloor().get());
+    }
+
+    @Test
+    void ShouldAllowOnlyCorrectDestinationsWhenPriorityIsSet(){
+        // given an elevator with set destinations and priority floor (floor = 2; destinations=[4,7])
+        Elevator elevator = new Elevator();
+        elevator.move(1);
+        elevator.move(1);
+        elevator.addDestination(4);
+        elevator.addDestination(7);
+        elevator.setPriorityFloor(2);
+
+        // when adding new destinations
+        elevator.addDestination(0);
+        elevator.addDestination(3);
+        elevator.addDestination(6);
+        elevator.addDestination(8);
+
+        // then only those between current floor and furthest destination are set
+        assertTrue(elevator.getDestinations().contains(3));
+        assertTrue(elevator.getDestinations().contains(6));
+        assertFalse(elevator.getDestinations().contains(0));
+        assertFalse(elevator.getDestinations().contains(8));
+    }
+
+    @Test
+    void shouldMoveTowardsPriorityFloor(){
+        // given an elevator with set destination and priority floor
+        Elevator elevator = new Elevator();
+        elevator.move(1);
+        elevator.addDestination(3);
+        elevator.addDestination(4);
+        elevator.setPriorityFloor(2);
+        int[] expectedPath = {2,3,4,3,2,2,2};
+
+        // when moving
+        // then elevator follows the shortest path to priority floor
+        for (int i = 0; i < 7; i++) {
+            elevator.move();
+            assertEquals(expectedPath[i], elevator.getCurrentFloor());
+        }
+        assertTrue(elevator.getPriorityFloor().isEmpty());
+    }
+
 }
