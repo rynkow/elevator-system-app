@@ -7,33 +7,65 @@
     align-items: center;
     height: 60px;
     width: 100vw;
-    padding: 0 10px;
     box-sizing:border-box;
     background-color: rgb(0, 38, 77);
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: floralwhite;
+    padding: 0 20px;
 }
 
 .filler{
     height: 60px;
     width: 100vw;
     position: relative;
-
 }
 
-.next-step-button {
-    width: 100px;
+.control-button {
+    width: max-content;
     height: 70%;
     font-weight: bold;
     font-size: 1.1rem;
     background-color: transparent;
     color: floralwhite;
     cursor: pointer;
-    border: 2px solid rgb(0, 38, 77);
+    border: 1px solid rgba(255, 250, 240, 0.5);
+    border-radius: 4px;
+    padding: 5px;
 }
 
-.next-step-button:hover{
+.control-button:hover{
     color: rgb(0, 38, 77);
-    border: 2px solid black;
+    border: 1px solid floralwhite;
     background-color: #f0faff;
     border-radius: 5px;
     transition: 100ms;
 }
+
+.v-roll{
+    height: 60%;
+    width: 0;
+    border-left: 1px solid floralwhite;
+    margin: 0 21px;
+}
+
+.control-bar *> label{
+    white-space: nowrap;
+    color: floralwhite;
+    font-size: 0.9rem;
+    font-weight: lighter;
+}
+
+.inputs {
+    display: flex;
+    gap: 5px;
+    margin: 0 5px 0 20px;
+    height: 100%;
+    align-items: center;
+}
+
+
+.control-bar *> input{
+    width: 170px;
+}
+

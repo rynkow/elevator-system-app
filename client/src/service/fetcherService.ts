@@ -25,6 +25,14 @@ class FetcherService{
         return request.ok;
     }
 
+    public static setSystemParameters = async (maxFloor: number, elevatorCount: number) => {
+        console.log("new params", maxFloor, elevatorCount)
+        const request = await fetch(`http://localhost:8080/elevators/${maxFloor}/${elevatorCount}`, {method: "PUT"});
+        if (!request.ok) return undefined;
+        const systemState: ElevatorSystemState = await request.json()
+        return systemState;
+    }
+
 }
 
 export default FetcherService;

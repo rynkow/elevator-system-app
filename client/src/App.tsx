@@ -40,6 +40,12 @@ const App = () => {
         if (systemState !== undefined) setState(systemState);
     }
 
+    const setSystemParameters = async (maxFloor: number, elevatorCount: number) => {
+        const systemState: ElevatorSystemState | undefined = await FetcherService.setSystemParameters(maxFloor, elevatorCount);
+        console.log(systemState);
+        if (systemState !== undefined) setState(systemState);
+    }
+
     const addDestination = async (elevatorId: number, destination: number) => {
         const ok = await FetcherService.newDestination(elevatorId, destination);
         if (ok){
@@ -100,7 +106,7 @@ const App = () => {
     return (
         <div className="App">
             <Grid elements={gridElements}/>
-            <ControlBar onNextStep={nextStep}/>
+            <ControlBar onNextStep={nextStep} onNewParameters={setSystemParameters}/>
         </div>
     );
 }
