@@ -41,25 +41,52 @@ const App = () => {
             newDestinations.push(destination);
             setElevatorDestinations(elevatorDestinations.map((destinations, id)=>{
                 if (id !== elevatorId) return destinations;
-                else return newDestinations
+                else return newDestinations;
             }))
+        }
+    }
+
+    const addRequest = async (floor: number, direction: number) => {
+        const ok = await FetcherService.newRequest(floor, direction);
+        if (ok){
+            if (direction < 0){
+                const newDownRequests = downRequests.slice();
+                newDownRequests.push(floor);
+                setDownRequests(newDownRequests)
+            }
+            else {
+                const newUpRequests = upRequests.slice();
+                newUpRequests.push(floor);
+                setUpRequests(newUpRequests)
+            }
         }
     }
 
     const gridElements: JSX.Element[][] = Array.from(Array(maxFloor + 1).keys()).map((row) =>
         Array.from(Array(elevatorCount + 1).keys()).map((column) => {
-            if (column < elevatorCount && elevatorFloors[column] === maxFloor - row)
-                return (
-                    <Elevator
-                        key={column}
-                        maxFloor={maxFloor}
-                        floor={elevatorFloors[column]}
-                        destinations={elevatorDestinations[column]}
-                        onNewDestination={(destination)=>addDestination(column, destination)}
-                        direction={elevatorDirections[column]}
-                    />
-                );
-            if (column === elevatorCount) return <RequestControls></RequestControls>
+            if (column < elevatorCount && elevatorFloors[column] === maxFloor - row) return (
+                <Elevator
+                    key={column}
+                    maxFloor={maxFloor}
+                    floor={elevatorFloors[column]}
+                    destinations={elevatorDestinations[column]}
+                    onNewDestination={(destination)=>addDestination(column, destination)}
+                    direction={elevatorDirections[column]}
+                />
+            );
+            if (column === elevatorCount) return (
+                <RequestControls
+                    onNewRequest={(direction)=>addRequest(maxFloor - row, direction)}
+                    key={column}
+                    downHidden={row===maxFloor}
+                    upHidden={row === 0}
+                    idleElevatorOnFloor={
+                        elevatorDirections.filter((_, index)=>elevatorFloors[index]===maxFloor - row && elevatorDirections[index] === 0).length > 0
+                    }
+                    upActive={upRequests.includes(maxFloor - row)}
+                    downActive={downRequests.includes(maxFloor - row)}
+                />
+            );
             return <div></div>
         })
     )
