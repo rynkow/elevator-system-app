@@ -1,0 +1,33 @@
+
+.request-controls-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
+.request-button {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 0;
+    border-bottom: 0;
+    background-color: transparent;
+    transform: scaleY(1.2);
+
+    padding: 0;
+    margin: 10px;
+
+}
+
+.up-button {
+    border-bottom: 30px solid green;
+}
+
+.down-button {
+    border-top: 30px solid green;
+
+}
+

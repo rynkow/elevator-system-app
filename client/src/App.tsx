@@ -4,6 +4,7 @@ import Grid from "./component/Grid";
 import {ElevatorSystemState} from "./interface/elevatorSystemState.interface";
 import FetcherService from "./service/fetcherService";
 import Elevator from "./component/Elevator";
+import RequestControls from "./component/RequestControls";
 
 const App = () => {
     const [maxFloor, setMaxFloor] = useState(0);
@@ -58,7 +59,8 @@ const App = () => {
                         direction={elevatorDirections[column]}
                     />
                 );
-            else return <div></div>
+            if (column === elevatorCount) return <RequestControls></RequestControls>
+            return <div></div>
         })
     )
 
