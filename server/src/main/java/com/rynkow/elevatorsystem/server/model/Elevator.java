@@ -47,6 +47,7 @@ public class Elevator implements IElevator {
 
     @Override
     public void move(Integer direction) {
+        if (floor + Integer.signum(direction) < 0) return;
         // move elevator one floor towards a specified direction
         this.floor += Integer.signum(direction);
     }
@@ -59,7 +60,7 @@ public class Elevator implements IElevator {
         if (floor.equals(destination))
             return false;
 
-        // direction in which destination is
+        // direction in which the destination lays
         Integer newDestinationDirection = Integer.signum(destination - floor);
 
         // if elevator is idle all directions are ok, and destination direction becomes elevator direction
@@ -96,8 +97,7 @@ public class Elevator implements IElevator {
 
     @Override
     public Integer getDirection() {
-        if (destinations.isEmpty()) return 0;
-        return Integer.signum(destinations.first() - this.floor);
+        return direction;
     }
 
     @Override
