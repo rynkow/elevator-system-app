@@ -13,8 +13,6 @@ public interface IElevator {
 
     SortedSet<Integer> getDestinations();
 
-    Integer willMovePast(Integer floor);
-
     Integer getDirection();
 
     void setDirection(Integer direction);
@@ -24,4 +22,6 @@ public interface IElevator {
 
     Boolean isOpen();
     void setIsOpen(Boolean isOpen);
+    Double estimatedArrivalTime(Integer floor, Integer direction);
+    boolean isIdle();
 }

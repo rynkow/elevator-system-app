@@ -16,12 +16,15 @@ public class Elevator implements IElevator {
 
     private Integer priorityFloor;
 
+    private boolean onPathToPriorityFloor;
+
     public Elevator(){
         this.floor = 0;
         this.destinations = new TreeSet<>();
         this.direction = 0;
         this.isOpen = true;
         this.priorityFloor = null;
+        this.onPathToPriorityFloor = false;
     }
 
     @Override
@@ -30,33 +33,33 @@ public class Elevator implements IElevator {
 
         // if there are no destinations set
         if (destinations.isEmpty()){
-            // if there is a priority floor move towards it
+            // if there is a priority floor start moving towards it
             if (priorityFloor != null){
                 move(priorityFloor-floor);
-                if (floor.equals(priorityFloor)) priorityFloor = null;
+                onPathToPriorityFloor = true;
+
+                // if we arrived at priority floor we set priority to null
+                if (floor.equals(priorityFloor)) {
+                    onPathToPriorityFloor = false;
+                    priorityFloor = null;
+                    direction = 0;
+                }
+                return;
             }
-            // if there are no destinations don't move and set elevator direction to 0
+            // else don't move and set elevator direction to 0
             direction = 0;
             return;
         }
 
         // move towards next destination
-        Integer nextDestination = destinations.first();
-        if (floor < nextDestination){
-            // if next destination is above move up
-            floor += 1;
-        }
-        else {
-            // if next destination is below the elevator set next destination to the highest one in the set, and move downwards
-            nextDestination = destinations.last();
-            floor -= 1;
-        }
-        // if we arrived at the destination floor, we remove it from the set
-        if (floor.equals(nextDestination)){
-            destinations.remove(nextDestination);
-            // if we reached the final destination elevator becomes idle
-            if (destinations.isEmpty()) direction = 0;
-        }
+        int destinationDirection = Integer.signum(destinations.first() - floor);
+        floor += destinationDirection;
+
+        // remove current floor from destinations
+        destinations.remove(floor);
+
+        // if we reached the final destination and there is no priority set elevator becomes idle
+        if (destinations.isEmpty() && priorityFloor == null) direction = 0;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class Elevator implements IElevator {
         if (floor + Integer.signum(direction) < 0) return;
         // move elevator one floor towards a specified direction
         this.floor += Integer.signum(direction);
+        this.direction = Integer.signum(direction);
     }
 
     @Override
@@ -77,15 +81,8 @@ public class Elevator implements IElevator {
         // direction in which the destination lays
         Integer newDestinationDirection = Integer.signum(destination - floor);
 
-        // if there is a priority target set
-        if (priorityFloor != null){
-            // only destinations between current floor and farthest destination are allowed
-            if (willMovePast(destination) == 0)
-                return false;
-
-            destinations.add(destination);
-            return true;
-        }
+        // if elevator is going towards priority floor do not allow new destinations
+        if (onPathToPriorityFloor) return false;
 
         // if elevator is idle all directions are ok, and destination direction becomes elevator direction
         if (direction.equals(0)){
@@ -102,24 +99,6 @@ public class Elevator implements IElevator {
     }
 
     @Override
-    public Integer willMovePast(Integer floor) {
-        if (destinations.isEmpty()) return 0;
-
-        Integer floorDirection = Integer.signum(floor - this.floor);
-
-        if (!direction.equals(floorDirection)) return 0;
-
-        Integer floorDistance = Math.abs(floor - this.floor);
-        if (direction.equals(1) && destinations.last() >= floor)
-            return floorDistance;
-
-        if (direction.equals(-1) && destinations.first() <= floor)
-            return floorDistance;
-
-        return 0;
-    }
-
-    @Override
     public Integer getDirection() {
         return direction;
     }
@@ -133,6 +112,8 @@ public class Elevator implements IElevator {
 
     @Override
     public void setPriorityFloor(Integer priorityFloor) {
+        if (direction == 0)
+            direction = Integer.signum(priorityFloor - floor);
         this.priorityFloor = priorityFloor;
     }
 
@@ -159,5 +140,17 @@ public class Elevator implements IElevator {
     @Override
     public void setIsOpen(Boolean isOpen) {
         this.isOpen = isOpen;
+    }
+
+    @Override
+    public boolean isIdle() {
+        return direction.equals(0) && destinations.isEmpty() && getPriorityFloor().isEmpty();
+    }
+
+    @Override
+    public Double estimatedArrivalTime(Integer floor, Integer direction){
+        Integer floorDirection = Integer.signum(floor - this.floor);
+        if (!floorDirection.equals(this.direction)) return Double.POSITIVE_INFINITY;
+        return (double) Math.abs(this.floor - floor);
     }
 }

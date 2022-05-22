@@ -7,12 +7,14 @@ import java.util.Objects;
 public class Request {
     private final Integer floor;
     private final Integer direction;
-    private Integer reservedElevator;
+    private IElevator assignedElevator;
+    private Integer timer;
 
     public Request(Integer floor, Integer direction) {
         this.floor = floor;
         this.direction = Integer.signum(direction);
-        this.reservedElevator = -1;
+        this.timer = 0;
+        this.assignedElevator = null;
     }
 
     @Override
@@ -28,24 +30,30 @@ public class Request {
         return Objects.hash(floor, direction);
     }
 
+    public void incrementTimer(){
+        this.timer += 1;
+    }
+    public Integer getWaitingTime() {
+        return timer;
+    }
+
+    public void assign(IElevator elevator){
+        this.assignedElevator = elevator;
+    }
+
+    public Boolean isAssigned() {
+        return assignedElevator != null;
+    }
+
+    public IElevator getAssignedElevator() {
+        return assignedElevator;
+    }
+
     public Integer getFloor() {
         return floor;
     }
 
     public Integer getDirection() {
         return direction;
-    }
-
-    public Integer getReservedElevator() {
-        return reservedElevator;
-    }
-
-    public Boolean hasReservedElevator() {
-        return reservedElevator >= 0;
-    }
-
-    public void setReservedElevator(Integer reservedElevator) {
-        if (reservedElevator < 0 ) throw new IllegalArgumentException("elevator id lower than 0");
-        this.reservedElevator = reservedElevator;
     }
 }
