@@ -4,9 +4,9 @@ const ElevatorButton = (props: {children: JSX.Element, onClick: ()=>void, disabl
 
     return (
         <button
-            className={`elevator-button ${props.isSet?"set":""} ${props.disabled?"inactive":""}`}
+            className={`text elevator-button ${props.isSet?"set":""} ${props.disabled?"inactive":""}`}
             onClick={props.onClick}
-            disabled={props.disabled || props.isSet}
+            disabled={props.disabled}
         >
             {props.children}
         </button>
