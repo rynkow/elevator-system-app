@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ElevatorTest {
 
     @Test
-    void shouldNotMoveBelowGroundFloor(){
+    void shouldNotMoveBelowGroundFloor() {
         // given elevator on floor 0
         Elevator elevator = new Elevator();
         assertEquals(0, elevator.getCurrentFloor());
@@ -22,7 +22,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldMoveTowardsDestination(){
+    void shouldMoveTowardsDestination() {
         // given elevators with destinations above and below current floor
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -40,12 +40,12 @@ public class ElevatorTest {
         elevatorDown.move();
 
         // floor changes by 1 in the direction of the destination
-        assertEquals(3+1, elevatorUp.getCurrentFloor());
-        assertEquals(3-1, elevatorDown.getCurrentFloor());
+        assertEquals(3 + 1, elevatorUp.getCurrentFloor());
+        assertEquals(3 - 1, elevatorDown.getCurrentFloor());
     }
 
     @Test
-    void shouldNotMoveWithoutDestination(){
+    void shouldNotMoveWithoutDestination() {
         // given elevator without destination
         Elevator elevator = new Elevator();
         for (int i = 0; i < 3; i++)
@@ -59,7 +59,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldNotMoveMoreThanOneFloor(){
+    void shouldNotMoveMoreThanOneFloor() {
         // given an elevator
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -76,7 +76,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldSetDirectionToZeroWhenLastDestinationIsReached(){
+    void shouldSetDirectionToZeroWhenLastDestinationIsReached() {
         // given an elevator with set destinations
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -101,7 +101,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldNotSetDirectionToZeroWhenThereAreDestinationsLeft(){
+    void shouldNotSetDirectionToZeroWhenThereAreDestinationsLeft() {
         // given an elevator with set destinations
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -128,7 +128,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldNotAddDestinationEqualToTheCurrentFloor(){
+    void shouldNotAddDestinationEqualToTheCurrentFloor() {
         // given an elevator
         Elevator elevatorWithoutDestination = new Elevator();
         Elevator elevatorWithDestination = new Elevator();
@@ -146,7 +146,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldAddDestinationInCorrectDirection(){
+    void shouldAddDestinationInCorrectDirection() {
         // given an elevator with set direction
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -181,7 +181,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldNotAddDestinationInWrongDirection(){
+    void shouldNotAddDestinationInWrongDirection() {
         // given an elevator with set direction
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -201,7 +201,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldSetDirectionWhenAddingDestination(){
+    void shouldSetDirectionWhenAddingDestination() {
         // given elevator with no direction
         Elevator elevatorUp = new Elevator();
         Elevator elevatorDown = new Elevator();
@@ -220,7 +220,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldOnlyAddRequestedDestination(){
+    void shouldOnlyAddRequestedDestination() {
         // given an elevator and a list of destination
         ArrayList<Integer> destinations = new ArrayList<>();
         destinations.add(1);
@@ -229,7 +229,7 @@ public class ElevatorTest {
         Elevator elevator = new Elevator();
 
         // when destinations are set
-        for (int destination: destinations)
+        for (int destination : destinations)
             elevator.addDestination(destination);
 
         // then only requested destinations are set
@@ -240,8 +240,9 @@ public class ElevatorTest {
                 assertFalse(elevator.getDestinations().contains(i));
         }
     }
+
     @Test
-    void ShouldBeAbleToSetPriorityFloor(){
+    void ShouldBeAbleToSetPriorityFloor() {
         // given an elevator without set priority floor
         Elevator elevator = new Elevator();
         assertTrue(elevator.getPriorityFloor().isEmpty());
@@ -254,7 +255,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void ShouldNotAllowNewDestinationsWhenMovingTowardsPriorityFloor(){
+    void ShouldNotAllowNewDestinationsWhenMovingTowardsPriorityFloor() {
         // given an elevator on way to priority target
         Elevator elevator = new Elevator();
         elevator.move(1);
@@ -276,7 +277,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldMoveTowardsPriorityFloor(){
+    void shouldMoveTowardsPriorityFloor() {
         // given an elevator with set destination and priority floor
         Elevator elevator = new Elevator();
         elevator.move(1);
@@ -284,7 +285,7 @@ public class ElevatorTest {
         elevator.addDestination(4);
         elevator.setPriorityFloor(2);
         elevator.addDestination(5);
-        int[] expectedPath = {2,3,4,5,4,3,2,2,2};
+        int[] expectedPath = {2, 3, 4, 5, 4, 3, 2, 2, 2};
 
         // when moving
         // then elevator moves directly to priority floor if no further destinations are set
@@ -296,7 +297,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldCloseTheDoorsWenMoving(){
+    void shouldCloseTheDoorsWenMoving() {
         // given an elevator with open doors
         Elevator elevator = new Elevator();
         elevator.addDestination(3);
@@ -310,7 +311,7 @@ public class ElevatorTest {
     }
 
     @Test
-    void shouldOpenDoorsAfterArrivingAtDestination(){
+    void shouldOpenDoorsAfterArrivingAtDestination() {
         // given an elevator
         Elevator elevator = new Elevator();
         elevator.addDestination(3);

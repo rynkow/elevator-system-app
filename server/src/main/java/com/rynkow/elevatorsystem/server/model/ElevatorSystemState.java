@@ -26,7 +26,43 @@ public class ElevatorSystemState {
         this.elevatorDestinations = elevatorDestinations;
     }
 
-    public static class Builder{
+    public Integer getElevatorCount() {
+        return elevatorCount;
+    }
+
+    public Integer getMaxFloor() {
+        return maxFloor;
+    }
+
+    public List<Integer> getUpRequests() {
+        return upRequests;
+    }
+
+    public List<Integer> getDownRequests() {
+        return downRequests;
+    }
+
+    public List<Integer> getElevatorFloors() {
+        return elevatorFloors;
+    }
+
+    public List<Boolean> getOpenElevators() {
+        return openElevators;
+    }
+
+    public List<Integer> getElevatorDirections() {
+        return elevatorDirections;
+    }
+
+    public List<Boolean> getReservedElevators() {
+        return reservedElevators;
+    }
+
+    public List<List<Integer>> getElevatorDestinations() {
+        return elevatorDestinations;
+    }
+
+    public static class Builder {
         private Integer elevatorCount;
         private Integer maxFloor;
         private List<Integer> upRequests;
@@ -38,7 +74,9 @@ public class ElevatorSystemState {
         private List<Boolean> reservedElevators;
         private List<List<Integer>> elevatorDestinations;
 
-        public Builder() {}
+        public Builder() {
+        }
+
         public Builder setElevatorCount(Integer elevatorCount) {
             this.elevatorCount = elevatorCount;
             return this;
@@ -84,54 +122,18 @@ public class ElevatorSystemState {
             return this;
         }
 
-        public ElevatorSystemState build(){
+        public ElevatorSystemState build() {
             return new ElevatorSystemState(
-                this.elevatorCount,
-                this.maxFloor,
-                this.upRequests,
-                this.downRequests,
-                this.elevatorFloors,
-                this.openElevators,
-                this.elevatorDirections,
-                this.reservedElevators,
-                this.elevatorDestinations
+                    this.elevatorCount,
+                    this.maxFloor,
+                    this.upRequests,
+                    this.downRequests,
+                    this.elevatorFloors,
+                    this.openElevators,
+                    this.elevatorDirections,
+                    this.reservedElevators,
+                    this.elevatorDestinations
             );
         }
-    }
-
-    public Integer getElevatorCount() {
-        return elevatorCount;
-    }
-
-    public Integer getMaxFloor() {
-        return maxFloor;
-    }
-
-    public List<Integer> getUpRequests() {
-        return upRequests;
-    }
-
-    public List<Integer> getDownRequests() {
-        return downRequests;
-    }
-
-    public List<Integer> getElevatorFloors() {
-        return elevatorFloors;
-    }
-
-    public List<Boolean> getOpenElevators() {
-        return openElevators;
-    }
-
-    public List<Integer> getElevatorDirections() {
-        return elevatorDirections;
-    }
-
-    public List<Boolean> getReservedElevators() {
-        return reservedElevators;
-    }
-
-    public List<List<Integer>> getElevatorDestinations() {
-        return elevatorDestinations;
     }
 }

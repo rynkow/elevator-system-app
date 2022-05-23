@@ -7,6 +7,7 @@ public interface IElevator {
     void move();
 
     void move(Integer direction);
+
     Integer getCurrentFloor();
 
     boolean addDestination(Integer destination);
@@ -17,14 +18,18 @@ public interface IElevator {
 
     void setDirection(Integer direction);
 
-    void setPriorityFloor(Integer priorityFloor);
     Optional<Integer> getPriorityFloor();
+
+    void setPriorityFloor(Integer priorityFloor);
 
     Boolean isOpen();
 
     void close();
+
     void open();
+
     Double estimatedArrivalTime(Integer floor, Integer direction);
+
     boolean isIdle();
 
     boolean isOnPathToPriorityFloor();

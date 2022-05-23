@@ -30,14 +30,15 @@ public class Request {
         return Objects.hash(floor, direction);
     }
 
-    public void incrementTimer(){
+    public void incrementTimer() {
         this.timer += 1;
     }
+
     public Integer getWaitingTime() {
         return timer;
     }
 
-    public void assign(IElevator elevator){
+    public void assign(IElevator elevator) {
         this.assignedElevator = elevator;
     }
 

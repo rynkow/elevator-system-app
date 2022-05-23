@@ -10,12 +10,12 @@ import java.util.List;
 public class ElevatorSystem implements IElevatorSystem {
     public final static Integer MAXIMUM_ELEVATOR_COUNT = 16;
     // system parameters
-    private Integer elevatorCount;
-    private Integer maxFlor;
+    private final Integer elevatorCount;
+    private final Integer maxFlor;
     private List<IElevator> elevators;
     private LinkedList<Request> requests;
 
-    public ElevatorSystem(Integer maxFloor, Integer elevatorCount){
+    public ElevatorSystem(Integer maxFloor, Integer elevatorCount) {
         if (elevatorCount > MAXIMUM_ELEVATOR_COUNT)
             throw new IllegalArgumentException("elevator count higher than MAXIMUM_ELEVATOR_COUNT");
 
@@ -25,18 +25,7 @@ public class ElevatorSystem implements IElevatorSystem {
         resetSystemState();
     }
 
-    @Override
-    public void setSystemParameters(Integer maxFloor, Integer elevatorCount) {
-        if (elevatorCount > MAXIMUM_ELEVATOR_COUNT)
-            throw new IllegalArgumentException("elevator count higher than MAXIMUM_ELEVATOR_COUNT");
-
-        this.maxFlor = maxFloor;
-        this.elevatorCount = elevatorCount;
-
-        resetSystemState();
-    }
-
-    private void resetSystemState(){
+    private void resetSystemState() {
         elevators = new ArrayList<>(elevatorCount);
         for (int i = 0; i < elevatorCount; i++) {
             elevators.add(new Elevator());
@@ -50,7 +39,7 @@ public class ElevatorSystem implements IElevatorSystem {
         Double avgWaitingTime = getAverageWaitingTime();
 
         // for every request try to assign an elevator to it
-        for (Request request: requests){
+        for (Request request : requests) {
             if (request.isAssigned()) continue;
 
             if (!assignRequest(request))
@@ -59,10 +48,10 @@ public class ElevatorSystem implements IElevatorSystem {
         }
 
         // move the elevators and fulfil requests
-        for (IElevator elevator: elevators){
+        for (IElevator elevator : elevators) {
             elevator.move();
             Request requestToFulfil = findRequest(elevator, elevator.getCurrentFloor());
-            if (requestToFulfil!=null){
+            if (requestToFulfil != null) {
                 requests.remove(requestToFulfil);
                 elevator.open();
                 elevator.setDirection(requestToFulfil.getDirection());
@@ -70,12 +59,12 @@ public class ElevatorSystem implements IElevatorSystem {
         }
     }
 
-    private boolean assignRequest(Request request){
+    private boolean assignRequest(Request request) {
         IElevator bestElevator = null;
         double bestTime = Double.POSITIVE_INFINITY;
 
         // look for elevator with best estimated arrival time
-        for (IElevator elevator: elevators){
+        for (IElevator elevator : elevators) {
             if (elevator.getPriorityFloor().isPresent()) continue;
             Double estimatedTime = Double.POSITIVE_INFINITY;
 
@@ -83,19 +72,19 @@ public class ElevatorSystem implements IElevatorSystem {
             if (elevator.getDirection().equals(request.getDirection()))
                 estimatedTime = elevator.estimatedArrivalTime(request.getFloor(), request.getDirection());
             // if elevator is idle
-            else if (elevator.isIdle()){
+            else if (elevator.isIdle()) {
                 Integer elevatorDirection = Integer.signum(elevator.getCurrentFloor() - request.getFloor());
                 // if elevator would move in the same direction as the request
-                if (!elevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor)){
+                if (!elevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor)) {
                     estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
                 }
                 // if elevator would have to be reserved
                 else {
-                    estimatedTime = ((double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) - 1)*5;
+                    estimatedTime = ((double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) - 1) * 5;
                 }
             }
 
-            if (bestTime > estimatedTime){
+            if (bestTime > estimatedTime) {
                 bestElevator = elevator;
                 bestTime = estimatedTime;
             }
@@ -115,14 +104,14 @@ public class ElevatorSystem implements IElevatorSystem {
         return false;
     }
 
-    private void assignPriorityRequest(Request request, Double avgWaitingTime){
+    private void assignPriorityRequest(Request request, Double avgWaitingTime) {
         // check if elevator waited long enough to warrant priority treatment
         if (request.getWaitingTime() <= avgWaitingTime) return;
 
         // look for an elevator that would arrive at request floor fastest in worst case scenario
         IElevator bestElevator = null;
         double bestTime = Double.POSITIVE_INFINITY;
-        for (IElevator elevator: elevators){
+        for (IElevator elevator : elevators) {
             // skip elevators with priority requests
             if (elevator.getPriorityFloor().isPresent()) continue;
 
@@ -135,7 +124,7 @@ public class ElevatorSystem implements IElevatorSystem {
                 estimatedTime = elevator.estimatedArrivalTime(0, -1) + request.getFloor();
 
             // we compare found elevator to the current best
-            if (bestTime > estimatedTime){
+            if (bestTime > estimatedTime) {
                 bestElevator = elevator;
                 bestTime = estimatedTime;
             }
@@ -148,11 +137,11 @@ public class ElevatorSystem implements IElevatorSystem {
         }
     }
 
-    private Double getAverageWaitingTime(){
+    private Double getAverageWaitingTime() {
         Double waitingTime = 0.0;
-        for (Request request: requests)
+        for (Request request : requests)
             waitingTime += request.getWaitingTime();
-        return waitingTime/requests.size();
+        return waitingTime / requests.size();
     }
 
     @Override
@@ -161,21 +150,22 @@ public class ElevatorSystem implements IElevatorSystem {
                 .setElevatorCount(elevatorCount)
                 .setMaxFloor(maxFlor)
                 .setElevatorFloors(elevators.stream().map(IElevator::getCurrentFloor).toList())
-                .setDownRequests(requests.stream().filter(r->r.getDirection()==-1).map(Request::getFloor).toList())
-                .setUpRequests(requests.stream().filter(r->r.getDirection()==1).map(Request::getFloor).toList())
+                .setDownRequests(requests.stream().filter(r -> r.getDirection() == -1).map(Request::getFloor).toList())
+                .setUpRequests(requests.stream().filter(r -> r.getDirection() == 1).map(Request::getFloor).toList())
                 .setReservedElevators(elevators.stream().map(IElevator::isOnPathToPriorityFloor).toList())
-                .setElevatorDestinations(elevators.stream().map(e->e.getDestinations().stream().toList()).toList())
+                .setElevatorDestinations(elevators.stream().map(e -> e.getDestinations().stream().toList()).toList())
                 .setElevatorDirections(elevators.stream().map(IElevator::getDirection).toList())
                 .setOpenElevators(elevators.stream().map(IElevator::isOpen).toList())
                 .build();
     }
 
-    private Request findRequest(IElevator assignedElevator, Integer floor){
-        for (Request request: requests)
+    private Request findRequest(IElevator assignedElevator, Integer floor) {
+        for (Request request : requests)
             if (assignedElevator.equals(request.getAssignedElevator()) && request.getFloor().equals(floor))
                 return request;
         return null;
     }
+
     @Override
     public boolean newUpRequest(Integer floor) {
         // creates new request to move upwards from a floor
@@ -198,7 +188,7 @@ public class ElevatorSystem implements IElevatorSystem {
             return false;
 
         // return false if there is an open elevator that passenger could use instead
-        for (IElevator elevator: elevators) {
+        for (IElevator elevator : elevators) {
             if (elevator.getCurrentFloor().equals(request.getFloor())
                     && elevator.getDirection().equals(request.getDirection())
                     && elevator.isOpen())

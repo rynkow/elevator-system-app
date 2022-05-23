@@ -1,15 +1,13 @@
 package com.rynkow.elevatorsystem.server.model;
 
 import com.rynkow.elevatorsystem.server.model.interfaces.IElevator;
-import org.springframework.core.Ordered;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class Elevator implements IElevator {
-    private Integer floor;
     private final TreeSet<Integer> destinations;
+    private Integer floor;
     private Integer direction;
 
     private Boolean isOpen;
@@ -18,7 +16,7 @@ public class Elevator implements IElevator {
 
     private boolean onPathToPriorityFloor;
 
-    public Elevator(){
+    public Elevator() {
         this.floor = 0;
         this.destinations = new TreeSet<>();
         this.direction = 0;
@@ -33,10 +31,10 @@ public class Elevator implements IElevator {
         this.close();
 
         // if there are no destinations set
-        if (destinations.isEmpty()){
+        if (destinations.isEmpty()) {
             // if there is a priority floor start moving towards it
-            if (priorityFloor != null){
-                move(priorityFloor-floor);
+            if (priorityFloor != null) {
+                move(priorityFloor - floor);
                 onPathToPriorityFloor = true;
 
                 // if we arrived at priority floor we set priority to null
@@ -87,7 +85,7 @@ public class Elevator implements IElevator {
         if (onPathToPriorityFloor) return false;
 
         // if elevator is idle all directions are ok, and destination direction becomes elevator direction
-        if (direction.equals(0)){
+        if (direction.equals(0)) {
             destinations.add(destination);
             direction = newDestinationDirection;
             return true;
@@ -113,15 +111,15 @@ public class Elevator implements IElevator {
     }
 
     @Override
+    public Optional<Integer> getPriorityFloor() {
+        return Optional.ofNullable(priorityFloor);
+    }
+
+    @Override
     public void setPriorityFloor(Integer priorityFloor) {
         if (direction == 0)
             direction = Integer.signum(priorityFloor - floor);
         this.priorityFloor = priorityFloor;
-    }
-
-    @Override
-    public Optional<Integer> getPriorityFloor() {
-        return Optional.ofNullable(priorityFloor);
     }
 
     @Override
@@ -160,7 +158,7 @@ public class Elevator implements IElevator {
     }
 
     @Override
-    public Double estimatedArrivalTime(Integer floor, Integer direction){
+    public Double estimatedArrivalTime(Integer floor, Integer direction) {
         Integer floorDirection = Integer.signum(floor - this.floor);
         if (!floorDirection.equals(this.direction)) return Double.POSITIVE_INFINITY;
         return (double) Math.abs(this.floor - floor);
