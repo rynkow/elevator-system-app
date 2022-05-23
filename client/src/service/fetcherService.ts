@@ -1,6 +1,6 @@
 import {ElevatorSystemState} from "../interface/elevatorSystemState.interface";
 
-class FetcherService{
+class FetcherService {
     public static systemState = async () => {
         const request = await fetch("http://localhost:8080/elevators", {method: "GET"});
         if (!request.ok) return undefined;

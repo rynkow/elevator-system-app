@@ -1,5 +1,5 @@
 .control-bar {
-    position:fixed;
+    position: fixed;
     right: 0;
     bottom: 0;
     display: flex;
@@ -7,8 +7,8 @@
     align-items: center;
     height: 70px;
     width: 100vw;
-    box-sizing:border-box;
-    background-color: rgb(0,33,71);
+    box-sizing: border-box;
+    background-color: rgb(0, 33, 71);
     font-weight: bold;
     font-size: 1.1rem;
     color: floralwhite;
@@ -16,7 +16,7 @@
     white-space: nowrap;
 }
 
-.filler{
+.filler {
     height: 70px;
     width: 100vw;
     position: relative;
@@ -28,27 +28,27 @@
     font-weight: bold;
     font-size: 1.1rem;
     background-color: transparent;
-    color: rgb(248,251,255);
+    color: rgb(248, 251, 255);
     cursor: pointer;
-    border: 1px solid rgb(248,251,255);
+    border: 1px solid rgb(248, 251, 255);
     border-radius: 4px;
     padding: 5px;
 }
 
-.control-button:hover{
-    color: rgb(0,33,71);
-    background-color: rgb(248,251,255);
+.control-button:hover {
+    color: rgb(0, 33, 71);
+    background-color: rgb(248, 251, 255);
     transition: 100ms;
 }
 
-.v-roll{
+.v-roll {
     height: 60%;
     width: 0;
-    border-left: 1px solid rgb(248,251,255);
+    border-left: 1px solid rgb(248, 251, 255);
     margin: 0 21px;
 }
 
-.control-bar *> label{
+.control-bar * > label {
     color: white;
     font-size: 0.98rem;
     font-weight: lighter;
@@ -63,7 +63,7 @@
 }
 
 
-.control-bar *> input{
+.control-bar * > input {
     width: 170px;
 }
 

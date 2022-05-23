@@ -1,5 +1,5 @@
 
-.request-controls-container{
+.request-controls-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,12 +19,12 @@
 }
 
 .request-button:disabled {
-    color: rgb(208,208,225);
+    color: rgb(208, 208, 225);
     cursor: auto;
 }
 
-.active{
+.active {
     color: green !important;
-    text-shadow:  1px 1px 3px rgb(179,236,114);
+    text-shadow: 1px 1px 3px rgb(179, 236, 114);
 }
 

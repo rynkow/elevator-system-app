@@ -19,7 +19,6 @@ const App = () => {
     const [openElevators, setOpenElevators] = useState<boolean[]>([])
 
     const setState = (state: ElevatorSystemState) => {
-        console.log(state);
         setMaxFloor(state.maxFloor);
         setElevatorCount(state.elevatorCount);
         setElevatorFloors(state.elevatorFloors);
@@ -31,13 +30,13 @@ const App = () => {
         setOpenElevators(state.openElevators);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchState = async () => {
             const systemState: ElevatorSystemState | undefined = await FetcherService.systemState();
             if (systemState !== undefined) setState(systemState);
         };
         fetchState().then();
-    },[])
+    }, [])
 
     const nextStep = async () => {
         const systemState: ElevatorSystemState | undefined = await FetcherService.nextStep();
@@ -46,16 +45,15 @@ const App = () => {
 
     const setSystemParameters = async (maxFloor: number, elevatorCount: number) => {
         const systemState: ElevatorSystemState | undefined = await FetcherService.setSystemParameters(maxFloor, elevatorCount);
-        console.log(systemState);
         if (systemState !== undefined) setState(systemState);
     }
 
     const addDestination = async (elevatorId: number, destination: number) => {
         const ok = await FetcherService.newDestination(elevatorId, destination);
-        if (ok){
+        if (ok) {
             const newDestinations = elevatorDestinations[elevatorId].slice();
             newDestinations.push(destination);
-            setElevatorDestinations(elevatorDestinations.map((destinations, id)=>{
+            setElevatorDestinations(elevatorDestinations.map((destinations, id) => {
                 if (id !== elevatorId) return destinations;
                 else return newDestinations;
             }))
@@ -68,13 +66,12 @@ const App = () => {
 
     const addRequest = async (floor: number, direction: number) => {
         const ok = await FetcherService.newRequest(floor, direction);
-        if (ok){
-            if (direction < 0){
+        if (ok) {
+            if (direction < 0) {
                 const newDownRequests = downRequests.slice();
                 newDownRequests.push(floor);
                 setDownRequests(newDownRequests)
-            }
-            else {
+            } else {
                 const newUpRequests = upRequests.slice();
                 newUpRequests.push(floor);
                 setUpRequests(newUpRequests)
@@ -84,12 +81,11 @@ const App = () => {
 
     const requestButtonDisabled = (floor: number, direction: number) => {
         for (let i = 0; i < elevatorCount; i++)
-            if (elevatorFloors[i] === floor && !reservedElevators[i] && elevatorDirections[i] !== direction*(-1) && openElevators[i])
+            if (elevatorFloors[i] === floor && !reservedElevators[i] && elevatorDirections[i] !== direction * (-1) && openElevators[i])
                 return true;
 
         return false;
     }
-
 
     const gridElements: JSX.Element[][] = Array.from(Array(maxFloor + 1).keys()).map((row) =>
         Array.from(Array(elevatorCount + 1).keys()).map((column) => {
@@ -99,7 +95,7 @@ const App = () => {
                     maxFloor={maxFloor}
                     floor={elevatorFloors[column]}
                     destinations={elevatorDestinations[column]}
-                    onNewDestination={(destination)=>addDestination(column, destination)}
+                    onNewDestination={(destination) => addDestination(column, destination)}
                     direction={elevatorDirections[column]}
                     isReserved={reservedElevators[column]}
                     isOpen={openElevators[column]}
@@ -107,7 +103,7 @@ const App = () => {
             );
             if (column === elevatorCount) return (
                 <RequestControls
-                    onNewRequest={(direction)=>addRequest(maxFloor - row, direction)}
+                    onNewRequest={(direction) => addRequest(maxFloor - row, direction)}
                     key={column}
                     floor={maxFloor - row}
                     maxFloor={maxFloor}

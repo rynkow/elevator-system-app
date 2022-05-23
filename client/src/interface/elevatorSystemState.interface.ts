@@ -1,4 +1,4 @@
-export interface ElevatorSystemState{
+export interface ElevatorSystemState {
     maxFloor: number,                       // max floor
     elevatorCount: number,                  // number of elevators in the system
     upRequests: number[],                   // floor numbers of floors with active up request

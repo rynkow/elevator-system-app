@@ -3,7 +3,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    color: rgb(0,0,41);
+    color: rgb(0, 0, 41);
 }
 
 .text {

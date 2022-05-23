@@ -1,8 +1,8 @@
 .elevator {
     width: 100%;
     height: 100%;
-    box-sizing:border-box;
-    border: rgb(0,33,71) solid 1px;
+    box-sizing: border-box;
+    border: rgb(0, 33, 71) solid 1px;
     background-color: rgb(204, 216, 231);
     border-radius: 10px;
     display: flex;
@@ -11,12 +11,12 @@
     padding: 10px;
 }
 
-.reserved{
-    background-color: rgb(223,223,230);
+.reserved {
+    background-color: rgb(223, 223, 230);
 }
 
-.open{
-    background-color: rgb(234,239,229);
+.open {
+    background-color: rgb(234, 239, 229);
 
 }
 
@@ -35,19 +35,19 @@
     font-size: 25px;
 }
 
-.up-marker:after{
+.up-marker:after {
     content: "\25B2";
 }
 
-.down-marker:after{
+.down-marker:after {
     content: "\25BC";
 }
 
-.idle-marker:after{
+.idle-marker:after {
     content: "\25CF";
 }
 
-.reserved-marker:after{
+.reserved-marker:after {
     color: black;
     content: "\2A09";
 }

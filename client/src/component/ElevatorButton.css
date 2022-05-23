@@ -1,4 +1,4 @@
-.elevator-button{
+.elevator-button {
     height: 30px;
     width: 30px;
     margin: 3px;
@@ -7,17 +7,17 @@
     font-weight: normal;
 }
 
-.set{
+.set {
     /*color: #21b683;*/
     font-weight: bolder;
-    background-color: rgb(179,236,114);
+    background-color: rgb(179, 236, 114);
     /*text-shadow: 0 0 10px darkgreen;*/
     cursor: auto;
     pointer-events: none;
 }
 
-.inactive{
+.inactive {
     /*background-color: rgba(255, 99, 71, 0.40);*/
-    color: rgb(208,208,225);;
+    color: rgb(208, 208, 225);;
     cursor: auto;
 }
