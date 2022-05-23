@@ -112,7 +112,7 @@ public class ElevatorSystem implements IElevatorSystem {
             Double estimatedTime;
 
             // if elevator is idle, estimated time is equal to floor difference
-            if (elevator.getDestinations().isEmpty())
+            if (elevator.isIdle())
                 estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor());
             // else we check if the request waited long enough - if it did not we look for other idle elevators
             else if (request.getWaitingTime() <= avgWaitingTime)
