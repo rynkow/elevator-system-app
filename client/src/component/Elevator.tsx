@@ -1,7 +1,7 @@
 import "./Elevator.css"
 import ElevatorButton from "./ElevatorButton";
 
-const Elevator = (props:{maxFloor: number, floor: number, destinations: number[], direction: number, onNewDestination: (floor:number)=>void}) => {
+const Elevator = (props:{maxFloor: number, floor: number, destinations: number[], direction: number, onNewDestination: (floor:number)=>void, isReserved: boolean, isOpen:boolean}) => {
 
     const elevatorButtons : JSX.Element[] = []
     for (let i = 0; i <= props.maxFloor; i++) {
@@ -14,7 +14,8 @@ const Elevator = (props:{maxFloor: number, floor: number, destinations: number[]
     }
 
     return (
-        <div className="elevator">
+        <div className={`elevator ${props.isOpen?"open":"closed"} ${props.isReserved?"reserved":""}`}>
+            <div className="container">reserved {props.isReserved}</div>
             <div className="container">{props.direction}</div>
             <div className="container buttons">{elevatorButtons}</div>
         </div>

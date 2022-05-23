@@ -15,6 +15,8 @@ const App = () => {
     const [elevatorDestinations, setElevatorDestinations] = useState<number[][]>(new Array([]));
     const [upRequests, setUpRequests] = useState<number[]>([]);
     const [downRequests, setDownRequests] = useState<number[]>([]);
+    const [reservedElevators, setReservedElevators] = useState<boolean[]>([])
+    const [openElevators, setOpenElevators] = useState<boolean[]>([])
 
     const setState = (state: ElevatorSystemState) => {
         console.log(state);
@@ -25,6 +27,8 @@ const App = () => {
         setUpRequests(state.upRequests);
         setElevatorDirections(state.elevatorDirections);
         setElevatorDestinations(state.elevatorDestinations);
+        setReservedElevators(state.reservedElevators);
+        setOpenElevators(state.openElevators);
     }
 
     useEffect(()=>{
@@ -84,6 +88,8 @@ const App = () => {
                     destinations={elevatorDestinations[column]}
                     onNewDestination={(destination)=>addDestination(column, destination)}
                     direction={elevatorDirections[column]}
+                    isReserved={reservedElevators[column]}
+                    isOpen={openElevators[column]}
                 />
             );
             if (column === elevatorCount) return (
