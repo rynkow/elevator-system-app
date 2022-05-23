@@ -31,8 +31,6 @@
     box-sizing:border-box;
     padding: 7px;
     flex: 1 100%;
-    /*border: rgba(0, 0, 0, 0.47) solid 1px;*/
-    margin: -1px;
 }
 
 .last-column-cell {

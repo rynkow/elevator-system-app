@@ -5,54 +5,52 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 60px;
+    height: 70px;
     width: 100vw;
     box-sizing:border-box;
-    background-color: rgb(0, 38, 77);
+    background-color: rgb(0,33,71);
     font-weight: bold;
     font-size: 1.1rem;
     color: floralwhite;
     padding: 0 20px;
+    white-space: nowrap;
 }
 
 .filler{
-    height: 60px;
+    height: 70px;
     width: 100vw;
     position: relative;
 }
 
 .control-button {
     width: max-content;
-    height: 70%;
+    height: 60%;
     font-weight: bold;
     font-size: 1.1rem;
     background-color: transparent;
-    color: floralwhite;
+    color: rgb(248,251,255);
     cursor: pointer;
-    border: 1px solid rgba(255, 250, 240, 0.5);
+    border: 1px solid rgb(248,251,255);
     border-radius: 4px;
     padding: 5px;
 }
 
 .control-button:hover{
-    color: rgb(0, 38, 77);
-    border: 1px solid floralwhite;
-    background-color: #f0faff;
-    border-radius: 5px;
+    color: rgb(0,33,71);
+    background-color: rgb(248,251,255);
     transition: 100ms;
 }
 
 .v-roll{
     height: 60%;
     width: 0;
-    border-left: 1px solid floralwhite;
+    border-left: 1px solid rgb(248,251,255);
     margin: 0 21px;
 }
 
 .control-bar *> label{
-    white-space: nowrap;
-    color: floralwhite;
-    font-size: 0.9rem;
+    color: white;
+    font-size: 0.98rem;
     font-weight: lighter;
 }
 
