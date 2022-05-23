@@ -86,7 +86,7 @@ public class ElevatorSystem implements IElevatorSystem {
             else if (elevator.isIdle()){
                 Integer elevatorDirection = Integer.signum(elevator.getCurrentFloor() - request.getFloor());
                 // if elevator would move in the same direction as the request
-                if (!elevatorDirection.equals(request.getDirection())){
+                if (!elevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor)){
                     estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
                 }
                 // if elevator would have to be reserved
@@ -104,10 +104,10 @@ public class ElevatorSystem implements IElevatorSystem {
         // if such elevator was found assign it to the request ond return true
         if (bestElevator != null) {
             Integer bestElevatorDirection = Integer.signum(bestElevator.getCurrentFloor() - request.getFloor());
-            if (bestElevatorDirection.equals(request.getDirection()))
-                bestElevator.setPriorityFloor(request.getFloor());
-            else
+            if (!bestElevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor))
                 bestElevator.addDestination(request.getFloor());
+            else
+                bestElevator.setPriorityFloor(request.getFloor());
             request.assign(bestElevator);
             return true;
         }
