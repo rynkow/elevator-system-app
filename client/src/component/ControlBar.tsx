@@ -4,6 +4,16 @@ import {useState} from "react";
 const ControlBar = (props: { onNextStep: () => void, onNewParameters: (maxFloor: number, elevatorCount: number) => void }) => {
     const [maxFloor, setMaxFloor] = useState(1)
     const [elevatorCount, setElevatorCount] = useState(1)
+    const [incorrectInput, setIncorrectInput] = useState(false);
+
+    const onSubmit = () => {
+        let correct = true
+        if (maxFloor > 20 || maxFloor < 0) correct = false;
+        if (elevatorCount > 16 || elevatorCount < 0) correct = false;
+        setIncorrectInput(!correct);
+        if (correct)
+            props.onNewParameters(maxFloor, elevatorCount);
+    }
 
     return (
         <div>
@@ -16,19 +26,20 @@ const ControlBar = (props: { onNextStep: () => void, onNewParameters: (maxFloor:
                     <label>
                         Maximum Floor
                         <br/>
-                        <input type="number" min="1" max="20" value={maxFloor}
-                               onChange={e => setMaxFloor(parseInt(e.target.value))}/>
+                        <input type="number" value={maxFloor}
+                               onChange={e =>setMaxFloor(parseInt(e.target.value))}/>
                     </label>
                     <label>
                         Number of Elevators
                         <br/>
-                        <input type="number" min="1" max="16" value={elevatorCount}
+                        <input type="number" value={elevatorCount}
                                onChange={e => setElevatorCount(parseInt(e.target.value))}/>
                     </label>
                     <button className="control-button"
-                            onClick={() => props.onNewParameters(maxFloor, elevatorCount)}>Submit
+                            onClick={onSubmit}>Submit
                     </button>
                 </div>
+                <p hidden={!incorrectInput}>Please enter correct values</p>
 
             </div>
         </div>
