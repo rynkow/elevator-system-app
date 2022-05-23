@@ -78,6 +78,15 @@ const App = () => {
         }
     }
 
+    const requestButtonDisabled = (floor: number, direction: number) => {
+        for (let i = 0; i < elevatorCount; i++)
+            if (elevatorFloors[i] === floor && !reservedElevators[i] && elevatorDirections[i] !== direction*(-1) && openElevators[i])
+                return true;
+
+        return false;
+    }
+
+
     const gridElements: JSX.Element[][] = Array.from(Array(maxFloor + 1).keys()).map((row) =>
         Array.from(Array(elevatorCount + 1).keys()).map((column) => {
             if (column < elevatorCount && elevatorFloors[column] === maxFloor - row) return (
@@ -98,9 +107,8 @@ const App = () => {
                     key={column}
                     floor={maxFloor - row}
                     maxFloor={maxFloor}
-                    idleElevatorOnFloor={
-                        elevatorDirections.filter((_, index)=>elevatorFloors[index]===maxFloor - row && elevatorDirections[index] === 0).length > 0
-                    }
+                    upDisabled={requestButtonDisabled(maxFloor - row, 1)}
+                    downDisabled={requestButtonDisabled(maxFloor - row, -1)}
                     upActive={upRequests.includes(maxFloor - row)}
                     downActive={downRequests.includes(maxFloor - row)}
                 />
