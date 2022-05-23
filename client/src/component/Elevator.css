@@ -7,6 +7,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    align-content: center;
     padding: 10px;
 }
 
@@ -28,4 +29,25 @@
 
 .elevator > .buttons {
     flex: 1 100%;
+}
+
+.direction-marker {
+    font-size: 25px;
+}
+
+.up-marker:after{
+    content: "\25B2";
+}
+
+.down-marker:after{
+    content: "\25BC";
+}
+
+.idle-marker:after{
+    content: "\25CF";
+}
+
+.reserved-marker:after{
+    color: black;
+    content: "\2A09";
 }
