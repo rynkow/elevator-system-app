@@ -79,12 +79,12 @@ public class ElevatorSystem implements IElevatorSystem {
             if (elevator.getPriorityFloor().isPresent()) continue;
             Double estimatedTime = Double.POSITIVE_INFINITY;
 
-            // if elevator goes in dhe direction of the request
+            // if elevator goes in the direction of the request
             if (elevator.getDirection().equals(request.getDirection()))
                 estimatedTime = elevator.estimatedArrivalTime(request.getFloor(), request.getDirection());
             // if elevator is idle and in direction opposite to the request
             else if (elevator.isIdle() && Integer.signum(elevator.getCurrentFloor() - request.getFloor()) != request.getDirection())
-                estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor());
+                estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
 
             if (bestTime > estimatedTime){
                 bestElevator = elevator;
