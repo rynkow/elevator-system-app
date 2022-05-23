@@ -82,9 +82,18 @@ public class ElevatorSystem implements IElevatorSystem {
             // if elevator goes in the direction of the request
             if (elevator.getDirection().equals(request.getDirection()))
                 estimatedTime = elevator.estimatedArrivalTime(request.getFloor(), request.getDirection());
-            // if elevator is idle and in direction opposite to the request
-            else if (elevator.isIdle() && Integer.signum(elevator.getCurrentFloor() - request.getFloor()) != request.getDirection())
-                estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
+            // if elevator is idle
+            else if (elevator.isIdle()){
+                Integer elevatorDirection = Integer.signum(elevator.getCurrentFloor() - request.getFloor());
+                // if elevator would move in the same direction as the request
+                if (!elevatorDirection.equals(request.getDirection())){
+                    estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
+                }
+                // if elevator would have to be reserved
+                else {
+                    estimatedTime = ((double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) - 1)*5;
+                }
+            }
 
             if (bestTime > estimatedTime){
                 bestElevator = elevator;
@@ -94,7 +103,11 @@ public class ElevatorSystem implements IElevatorSystem {
 
         // if such elevator was found assign it to the request ond return true
         if (bestElevator != null) {
-            bestElevator.addDestination(request.getFloor());
+            Integer bestElevatorDirection = Integer.signum(bestElevator.getCurrentFloor() - request.getFloor());
+            if (bestElevatorDirection.equals(request.getDirection()))
+                bestElevator.setPriorityFloor(request.getFloor());
+            else
+                bestElevator.addDestination(request.getFloor());
             request.assign(bestElevator);
             return true;
         }
@@ -103,28 +116,23 @@ public class ElevatorSystem implements IElevatorSystem {
     }
 
     private void assignPriorityRequest(Request request, Double avgWaitingTime){
-        // we search for: 1. - idle elevators in not optimal direction, or any elevator without priority target if the request waited long enough
+        // check if elevator waited long enough to warrant priority treatment
+        if (request.getWaitingTime() <= avgWaitingTime) return;
+
+        // look for an elevator that would arrive at request floor fastest in worst case scenario
         IElevator bestElevator = null;
         double bestTime = Double.POSITIVE_INFINITY;
         for (IElevator elevator: elevators){
-            // elevator has another priority request
+            // skip elevators with priority requests
             if (elevator.getPriorityFloor().isPresent()) continue;
-            Double estimatedTime;
 
-            // if elevator is idle, estimated time is equal to floor difference
-            if (elevator.isIdle())
-                estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor());
-            // else we check if the request waited long enough - if it did not we look for other idle elevators
-            else if (request.getWaitingTime() <= avgWaitingTime)
-                continue;
-            // if the request waited long enough we set it as a priority for an elevator that should arrive ot its final destination soon
-            else {
-                // estimated time is how close the elevator is to one of the building's ends (the farthest possible destination)
-                if (request.getFloor() > maxFlor / 2)
-                    estimatedTime = elevator.estimatedArrivalTime(maxFlor, 1);
-                else
-                    estimatedTime = elevator.estimatedArrivalTime(0, -1);
-            }
+            double estimatedTime;
+
+            // estimated time - distance to the end of the building and back to the request
+            if (elevator.getDirection().equals(1))
+                estimatedTime = elevator.estimatedArrivalTime(maxFlor, 1) + maxFlor - request.getFloor();
+            else
+                estimatedTime = elevator.estimatedArrivalTime(0, -1) + request.getFloor();
 
             // we compare found elevator to the current best
             if (bestTime > estimatedTime){
