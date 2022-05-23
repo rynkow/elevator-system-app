@@ -59,6 +59,10 @@ const App = () => {
                 if (id !== elevatorId) return destinations;
                 else return newDestinations;
             }))
+            const destinationDirection = Math.sign(destination - elevatorFloors[elevatorId]);
+            const newDirections = elevatorDirections.slice();
+            newDirections[elevatorId] = destinationDirection;
+            setElevatorDirections(newDirections);
         }
     }
 
