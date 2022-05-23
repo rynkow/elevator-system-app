@@ -30,6 +30,7 @@ public class Elevator implements IElevator {
     @Override
     public void move() {
         // move elevator based on set destinations
+        this.close();
 
         // if there are no destinations set
         if (destinations.isEmpty()){
@@ -46,8 +47,9 @@ public class Elevator implements IElevator {
                 }
                 return;
             }
-            // else don't move and set elevator direction to 0
+            // else don't move and set elevator direction to 0 and open doors
             direction = 0;
+            this.open();
             return;
         }
 
@@ -55,8 +57,8 @@ public class Elevator implements IElevator {
         int destinationDirection = Integer.signum(destinations.first() - floor);
         floor += destinationDirection;
 
-        // remove current floor from destinations
-        destinations.remove(floor);
+        // remove current floor from destinations and open door
+        if (destinations.remove(floor)) this.open();
 
         // if we reached the final destination and there is no priority set elevator becomes idle
         if (destinations.isEmpty() && priorityFloor == null) direction = 0;
@@ -138,13 +140,23 @@ public class Elevator implements IElevator {
     }
 
     @Override
-    public void setIsOpen(Boolean isOpen) {
-        this.isOpen = isOpen;
+    public void open() {
+        this.isOpen = true;
+    }
+
+    @Override
+    public void close() {
+        this.isOpen = false;
     }
 
     @Override
     public boolean isIdle() {
         return direction.equals(0) && destinations.isEmpty() && getPriorityFloor().isEmpty();
+    }
+
+    @Override
+    public boolean isOnPathToPriorityFloor() {
+        return onPathToPriorityFloor;
     }
 
     @Override

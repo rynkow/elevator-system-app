@@ -9,16 +9,18 @@ public class ElevatorSystemState {
     private final List<Integer> downRequests;
     private final List<Integer> elevatorFloors;
 
+    private final List<Boolean> openElevators;
     private final List<Integer> elevatorDirections;
-    private final List<Integer> reservedElevators;
+    private final List<Boolean> reservedElevators;
     private final List<List<Integer>> elevatorDestinations;
 
-    public ElevatorSystemState(Integer elevatorCount, Integer maxFloor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Integer> elevatorDirections, List<Integer> reservedElevators, List<List<Integer>> elevatorDestinations) {
+    public ElevatorSystemState(Integer elevatorCount, Integer maxFloor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Boolean> openElevators, List<Integer> elevatorDirections, List<Boolean> reservedElevators, List<List<Integer>> elevatorDestinations) {
         this.elevatorCount = elevatorCount;
         this.maxFloor = maxFloor;
         this.upRequests = upRequests;
         this.downRequests = downRequests;
         this.elevatorFloors = elevatorFloors;
+        this.openElevators = openElevators;
         this.elevatorDirections = elevatorDirections;
         this.reservedElevators = reservedElevators;
         this.elevatorDestinations = elevatorDestinations;
@@ -30,8 +32,10 @@ public class ElevatorSystemState {
         private List<Integer> upRequests;
         private List<Integer> downRequests;
         private List<Integer> elevatorFloors;
+
+        private List<Boolean> openElevators;
         private List<Integer> elevatorDirections;
-        private List<Integer> reservedElevators;
+        private List<Boolean> reservedElevators;
         private List<List<Integer>> elevatorDestinations;
 
         public Builder() {}
@@ -59,12 +63,18 @@ public class ElevatorSystemState {
             this.elevatorFloors = elevatorFloors;
             return this;
         }
+
+        public Builder setOpenElevators(List<Boolean> openElevators) {
+            this.openElevators = openElevators;
+            return this;
+        }
+
         public Builder setElevatorDirections(List<Integer> elevatorDirections) {
             this.elevatorDirections = elevatorDirections;
             return this;
         }
 
-        public Builder setReservedElevators(List<Integer> reservedElevators) {
+        public Builder setReservedElevators(List<Boolean> reservedElevators) {
             this.reservedElevators = reservedElevators;
             return this;
         }
@@ -81,6 +91,7 @@ public class ElevatorSystemState {
                 this.upRequests,
                 this.downRequests,
                 this.elevatorFloors,
+                this.openElevators,
                 this.elevatorDirections,
                 this.reservedElevators,
                 this.elevatorDestinations
@@ -108,11 +119,15 @@ public class ElevatorSystemState {
         return elevatorFloors;
     }
 
+    public List<Boolean> getOpenElevators() {
+        return openElevators;
+    }
+
     public List<Integer> getElevatorDirections() {
         return elevatorDirections;
     }
 
-    public List<Integer> getReservedElevators() {
+    public List<Boolean> getReservedElevators() {
         return reservedElevators;
     }
 

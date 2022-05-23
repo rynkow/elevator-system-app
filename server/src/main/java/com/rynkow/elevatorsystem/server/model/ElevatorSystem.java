@@ -64,6 +64,7 @@ public class ElevatorSystem implements IElevatorSystem {
             Request requestToFulfil = findRequest(elevator, elevator.getCurrentFloor());
             if (requestToFulfil!=null){
                 requests.remove(requestToFulfil);
+                elevator.open();
                 elevator.setDirection(requestToFulfil.getDirection());
             }
         }
@@ -154,9 +155,10 @@ public class ElevatorSystem implements IElevatorSystem {
                 .setElevatorFloors(elevators.stream().map(IElevator::getCurrentFloor).toList())
                 .setDownRequests(requests.stream().filter(r->r.getDirection()==-1).map(Request::getFloor).toList())
                 .setUpRequests(requests.stream().filter(r->r.getDirection()==1).map(Request::getFloor).toList())
-                .setReservedElevators(elevators.stream().map(e->e.getPriorityFloor().orElse(-1)).toList())
+                .setReservedElevators(elevators.stream().map(IElevator::isOnPathToPriorityFloor).toList())
                 .setElevatorDestinations(elevators.stream().map(e->e.getDestinations().stream().toList()).toList())
                 .setElevatorDirections(elevators.stream().map(IElevator::getDirection).toList())
+                .setOpenElevators(elevators.stream().map(IElevator::isOpen).toList())
                 .build();
     }
 
@@ -189,18 +191,10 @@ public class ElevatorSystem implements IElevatorSystem {
 
         // return false if there is an open elevator that passenger could use instead
         for (IElevator elevator: elevators) {
-            // floors dont match
-            if (!elevator.getCurrentFloor().equals(request.getFloor()))
-                continue;
-            // elevator is closed or has priority floor set
-            if (elevator.getPriorityFloor().isPresent() /*|| !elevator.isOpen()*/)
-                continue;
-            // directions dont match
-            if (elevator.getDirection().equals(0) || elevator.getDirection().equals(request.getDirection()))
-                continue;
-
-            System.out.println("request not allowed: " + request.getFloor() + " " + request.getDirection());
-            return false;
+            if (elevator.getCurrentFloor().equals(request.getFloor())
+                    && elevator.getDirection().equals(request.getDirection())
+                    && elevator.isOpen())
+                return false;
         }
 
         // add the request to the end of the unhandled list, return ture

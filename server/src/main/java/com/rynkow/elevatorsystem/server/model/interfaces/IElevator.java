@@ -21,7 +21,11 @@ public interface IElevator {
     Optional<Integer> getPriorityFloor();
 
     Boolean isOpen();
-    void setIsOpen(Boolean isOpen);
+
+    void close();
+    void open();
     Double estimatedArrivalTime(Integer floor, Integer direction);
     boolean isIdle();
+
+    boolean isOnPathToPriorityFloor();
 }
