@@ -30,6 +30,8 @@ public class ElevatorTest {
             elevatorUp.move(1);
             elevatorDown.move(1);
         }
+        elevatorDown.move(1);
+        elevatorDown.move(-1);
         elevatorUp.addDestination(4);
         elevatorDown.addDestination(0);
 
@@ -107,6 +109,8 @@ public class ElevatorTest {
             elevatorDown.move(1);
             elevatorUp.move(1);
         }
+        elevatorDown.move(1);
+        elevatorDown.move(-1);
         elevatorDown.addDestination(0);
         elevatorDown.addDestination(1);
         elevatorUp.addDestination(5);
@@ -153,6 +157,10 @@ public class ElevatorTest {
         elevatorUp.move(1);
         elevatorStill1.move(1);
         elevatorStill2.move(1);
+        elevatorDown.move(1);
+        elevatorDown.move(-1);
+        elevatorStill1.move(0);
+        elevatorStill2.move(0);
 
         elevatorUp.setDirection(1);
         elevatorStill1.setDirection(0);
@@ -179,7 +187,8 @@ public class ElevatorTest {
         Elevator elevatorDown = new Elevator();
         elevatorDown.move(1);
         elevatorUp.move(1);
-        elevatorUp.setDirection(1);
+        elevatorDown.move(1);
+        elevatorDown.move(-1);
         elevatorDown.setDirection(-1);
 
         // when trying to set new destination in correct direction
@@ -198,6 +207,8 @@ public class ElevatorTest {
         Elevator elevatorDown = new Elevator();
         elevatorDown.move(1);
         elevatorUp.move(1);
+        elevatorDown.move(1);
+        elevatorDown.move(-1);
 
         // when setting new destination
         elevatorUp.addDestination(2);
@@ -229,29 +240,6 @@ public class ElevatorTest {
                 assertFalse(elevator.getDestinations().contains(i));
         }
     }
-
-    @Test
-    void shouldReturnCorrectNumberOfTurnsInWhichItWillPassAFloor(){
-        // given an elevator with set destinations (elevator on floor 2 with dest 4 and 8)
-        Elevator elevator = new Elevator();
-        elevator.move(1);
-        elevator.move(1);
-        elevator.addDestination(4);
-        elevator.addDestination(8);
-
-        // when asking in how many turns it will move to a floor
-        // then replies correctly
-        assertEquals(0, elevator.willMovePast(0));
-        assertEquals(0, elevator.willMovePast(1));
-        assertEquals(0, elevator.willMovePast(2));
-        for (int floor = 3; floor <= 8; floor++) {
-            assertEquals(floor - 2, elevator.willMovePast(floor));
-        }
-        for (int floor = 9; floor <= 100; floor++) {
-            assertEquals(0, elevator.willMovePast(floor));
-        }
-    }
-
     @Test
     void ShouldBeAbleToSetPriorityFloor(){
         // given an elevator without set priority floor
@@ -266,14 +254,13 @@ public class ElevatorTest {
     }
 
     @Test
-    void ShouldAllowOnlyCorrectDestinationsWhenPriorityIsSet(){
-        // given an elevator with set destinations and priority floor (floor = 2; destinations=[4,7])
+    void ShouldNotAllowNewDestinationsWhenMovingTowardsPriorityFloor(){
+        // given an elevator on way to priority target
         Elevator elevator = new Elevator();
         elevator.move(1);
         elevator.move(1);
-        elevator.addDestination(4);
-        elevator.addDestination(7);
-        elevator.setPriorityFloor(2);
+        elevator.setPriorityFloor(8);
+        elevator.move();
 
         // when adding new destinations
         elevator.addDestination(0);
@@ -281,9 +268,9 @@ public class ElevatorTest {
         elevator.addDestination(6);
         elevator.addDestination(8);
 
-        // then only those between current floor and furthest destination are set
-        assertTrue(elevator.getDestinations().contains(3));
-        assertTrue(elevator.getDestinations().contains(6));
+        // no destinations are set
+        assertFalse(elevator.getDestinations().contains(3));
+        assertFalse(elevator.getDestinations().contains(6));
         assertFalse(elevator.getDestinations().contains(0));
         assertFalse(elevator.getDestinations().contains(8));
     }
@@ -296,15 +283,46 @@ public class ElevatorTest {
         elevator.addDestination(3);
         elevator.addDestination(4);
         elevator.setPriorityFloor(2);
-        int[] expectedPath = {2,3,4,3,2,2,2};
+        elevator.addDestination(5);
+        int[] expectedPath = {2,3,4,5,4,3,2,2,2};
 
         // when moving
-        // then elevator follows the shortest path to priority floor
+        // then elevator moves directly to priority floor if no further destinations are set
         for (int i = 0; i < 7; i++) {
             elevator.move();
             assertEquals(expectedPath[i], elevator.getCurrentFloor());
         }
         assertTrue(elevator.getPriorityFloor().isEmpty());
     }
+
+    @Test
+    void shouldCloseTheDoorsWenMoving(){
+        // given an elevator with open doors
+        Elevator elevator = new Elevator();
+        elevator.addDestination(3);
+        elevator.open();
+
+        // when moving
+        elevator.move();
+
+        // then doors close
+        assertFalse(elevator.isOpen());
+    }
+
+    @Test
+    void shouldOpenDoorsAfterArrivingAtDestination(){
+        // given an elevator
+        Elevator elevator = new Elevator();
+        elevator.addDestination(3);
+        elevator.move();
+        elevator.move();
+
+        // when elevator arrives at destination floor
+        elevator.move();
+
+        // then doors should open
+        assertTrue(elevator.isOpen());
+    }
+
 
 }
