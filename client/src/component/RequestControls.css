@@ -19,7 +19,7 @@
 }
 
 .request-button:disabled {
-    color: rgba(139, 0, 0, 0.15);
+    color: rgb(208,208,225);
     cursor: auto;
 }
 

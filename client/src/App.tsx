@@ -96,8 +96,8 @@ const App = () => {
                 <RequestControls
                     onNewRequest={(direction)=>addRequest(maxFloor - row, direction)}
                     key={column}
-                    downHidden={row===maxFloor}
-                    upHidden={row === 0}
+                    floor={maxFloor - row}
+                    maxFloor={maxFloor}
                     idleElevatorOnFloor={
                         elevatorDirections.filter((_, index)=>elevatorFloors[index]===maxFloor - row && elevatorDirections[index] === 0).length > 0
                     }

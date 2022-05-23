@@ -3,4 +3,10 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    color: rgb(0,0,41);
+}
+
+.text {
+    font-weight: bold;
+    margin: 0 auto;
 }

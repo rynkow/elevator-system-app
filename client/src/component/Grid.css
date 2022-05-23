@@ -6,7 +6,6 @@
     flex: 1 100%;
     align-items: stretch;
     box-sizing:border-box;
-    padding: 10px;
 }
 
 .grid-row {
@@ -17,12 +16,21 @@
     align-items: stretch;
 }
 
+.grid-row:nth-child(odd){
+    background-color: rgb(240,240,252);
+
+}
+
+.grid-row:nth-child(even){
+    background-color: rgb(245,245,247);
+
+}
+
 .grid-cell {
     box-sizing:border-box;
-    padding: 5px;
+    padding: 7px;
     flex: 1 100%;
-    background-color: whitesmoke;
-    border: rgba(0, 0, 0, 0.47) solid 1px;
+    /*border: rgba(0, 0, 0, 0.47) solid 1px;*/
     margin: -1px;
 }
 
