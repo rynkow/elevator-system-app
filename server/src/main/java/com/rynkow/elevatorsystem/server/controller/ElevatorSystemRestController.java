@@ -15,7 +15,7 @@ public class ElevatorSystemRestController {
     private IElevatorSystem elevatorSystem;
 
     public ElevatorSystemRestController(){
-        elevatorSystem = new ElevatorSystem(6, 6);
+        elevatorSystem = new ElevatorSystem(5, 6);
     }
 
     @GetMapping("/elevators")
