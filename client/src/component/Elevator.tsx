@@ -9,7 +9,7 @@ const Elevator = (props: { maxFloor: number, floor: number, destinations: number
         elevatorButtons.push(
             <ElevatorButton key={i} onClick={() => {
                 props.onNewDestination(i)
-            }} disabled={disabled || props.isReserved} isSet={props.destinations.includes(i)}>
+            }} disabled={disabled || props.isReserved} isSet={props.destinations.includes(i)} isCurrentFloor={i===props.floor}>
                 <div>{i}</div>
             </ElevatorButton>
         );

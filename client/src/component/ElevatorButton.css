@@ -21,3 +21,10 @@
     color: rgb(208, 208, 225);;
     cursor: auto;
 }
+
+.current-floor{
+    background-color: rgb(180,218,236);
+    font-weight: bolder;
+
+    color: rgb(0, 0, 41);
+}
