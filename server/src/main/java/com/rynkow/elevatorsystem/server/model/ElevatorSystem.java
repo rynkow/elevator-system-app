@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ElevatorSystem implements IElevatorSystem {
     public final static Integer MAXIMUM_ELEVATOR_COUNT = 16;
-    // system parameters
     private final Integer elevatorCount;
     private final Integer maxFlor;
     private List<IElevator> elevators;
@@ -74,7 +73,7 @@ public class ElevatorSystem implements IElevatorSystem {
             // if elevator is idle
             else if (elevator.isIdle()) {
                 Integer elevatorDirection = Integer.signum(elevator.getCurrentFloor() - request.getFloor());
-                // if elevator would move in the same direction as the request
+                // if elevator would move in the same direction as the request direction or is on at max or ground-floor
                 if (!elevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor)) {
                     estimatedTime = (double) Math.abs(request.getFloor() - elevator.getCurrentFloor()) + 1;
                 }
@@ -90,7 +89,7 @@ public class ElevatorSystem implements IElevatorSystem {
             }
         }
 
-        // if such elevator was found assign it to the request ond return true
+        // if such elevator was found - assign it to the request ond return true
         if (bestElevator != null) {
             Integer bestElevatorDirection = Integer.signum(bestElevator.getCurrentFloor() - request.getFloor());
             if (!bestElevatorDirection.equals(request.getDirection()) || request.getFloor().equals(0) || request.getFloor().equals(maxFlor))
