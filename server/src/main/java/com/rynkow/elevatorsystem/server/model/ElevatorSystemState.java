@@ -3,15 +3,23 @@ package com.rynkow.elevatorsystem.server.model;
 import java.util.List;
 
 public class ElevatorSystemState {
+    // number of elevators in the system
     private final Integer elevatorCount;
+    // max floor in the system
     private final Integer maxFloor;
+    // list of floors with an active up request
     private final List<Integer> upRequests;
+    // list of floors with an active down request
     private final List<Integer> downRequests;
+    // list of elevators' current floors
     private final List<Integer> elevatorFloors;
-
+    // list representing states of elevators' doors
     private final List<Boolean> openElevators;
+    // list of elevators' current directions
     private final List<Integer> elevatorDirections;
+    // list representing elevators' reserved status
     private final List<Boolean> reservedElevators;
+    // list of elevators' current destinations
     private final List<List<Integer>> elevatorDestinations;
 
     public ElevatorSystemState(Integer elevatorCount, Integer maxFloor, List<Integer> upRequests, List<Integer> downRequests, List<Integer> elevatorFloors, List<Boolean> openElevators, List<Integer> elevatorDirections, List<Boolean> reservedElevators, List<List<Integer>> elevatorDestinations) {
