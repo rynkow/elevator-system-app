@@ -1,5 +1,8 @@
 # System kontroli wind w budynku
-
+## Wykorzystane technologie
+* logika systemu napisana w Javie
+* aplikacja webowa pozwalająca na łatwe sterowanie i obserwacje stanu systemu: React.js, TypeScript
+* serwer REST API, pozwalający na dostęp do systemu, stworzony z pomocą frameworku Spring Boot
 ## Uruchomienie
 ### Uruchomienie servera
 ```
